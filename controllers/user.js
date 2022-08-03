@@ -1,6 +1,6 @@
 const { response, request } = require('express');
 const usuariosGet = (req = request, res = response) => {
-    const { q, nombre = 'No-Name', limit, page = 1 } = req.query;
+    const { q, nombre = 'No-Name', limit = 10, page = 1 } = req.query;
     res.json({
         ok: true,
         msg: 'get Api - Controlador de usuarios',
