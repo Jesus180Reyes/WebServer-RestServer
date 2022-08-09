@@ -20,7 +20,6 @@ const usuariosGet = async (req = request, res = response) => {
 
 
     res.json({
-
         ok: true,
         total,
         usuarios,
@@ -48,13 +47,18 @@ const usuariosPost = async (req, res = response) => {
 }
 const usuariosDelete = async (req, res) => {
     const { id } = req.params;
-    // Fisicamente eliminar el usuario Metodo 1
+    // const uid = req.uid;
+    // Fisicamente eliminar el usuario Metodo 1:
     // const usuario = await Usuario.findByIdAndDelete(id);
+    // Metodo 2:
     const usuario = await Usuario.findByIdAndUpdate(id, { estado: false });
+    const usuarioAutenticado = req.usuario;
     res.json({
         ok: true,
         msg: 'Eliminado Correctamente',
         usuario,
+        usuarioAutenticado
+        // uid
 
     });
 
@@ -70,7 +74,6 @@ const usuariosPut = async (req, res = response) => {
     }
     resto.updateAt = new Date();
     const usuarioU = await Usuario.findByIdAndUpdate(id, resto);
-
     res.json({
         ok: true,
         msg: 'Usuario Actualizado Correctamente',

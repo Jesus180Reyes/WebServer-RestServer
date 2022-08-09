@@ -10,8 +10,8 @@ const dbConecction = async () => {
         console.log('Base de datos Online'.green.underline.bold);
 
     } catch (error) {
-        console.log(error.red.underline.bold);
-        throw new Error('Error al conectar a la base de datos'.red);
+        console.log(`${error}`.red.underline.bold);
+        throw new Error('Error al conectar a la base de datos');
     }
 
 }
