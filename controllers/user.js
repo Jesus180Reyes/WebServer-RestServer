@@ -65,7 +65,7 @@ const usuariosDelete = async (req, res) => {
 }
 const usuariosPut = async (req, res = response) => {
     const { id } = req.params;
-    const { password, google, correo, createdAt, _id, rol, ...resto } = req.body;
+    const { password, google, correo, createdAt, estado, _id, rol, ...resto } = req.body;
 
     // TODO: validar que el id exista
     if (password) {
