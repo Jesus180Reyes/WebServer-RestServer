@@ -10,8 +10,14 @@ class Server {
         // MiddleWare;
         this.middlewares();
         // Path de usuarios
-        this.usuariosPath = '/api/usuarios';
-        this.authPath = '/api/auth';
+        this.paths = {
+            auth: '/api/auth',
+            categories: '/api/categorias',
+            usuarios: '/api/usuarios',
+            productos: '/api/productos',
+        };
+        // this.usuariosPath = '/api/usuarios';
+        // this.authPath = '/api/auth';
         // Conectar a Base DE datos
         this.DbConecction();
 
@@ -31,8 +37,10 @@ class Server {
         this.app.use(express.static('public'));
     }
     routes() {
-        this.app.use(this.authPath, require('../routes/auth'));
-        this.app.use(this.usuariosPath, require('../routes/user'));
+        this.app.use(this.paths.auth, require('../routes/auth'));
+        this.app.use(this.paths.usuarios, require('../routes/user'));
+        this.app.use(this.paths.categories, require('../routes/categorias'));
+        this.app.use(this.paths.productos, require('../routes/productos'));
     }
     listen() {
         this.app.listen(this.port, () => {
