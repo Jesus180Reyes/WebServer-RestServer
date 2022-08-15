@@ -28,9 +28,6 @@ router.put('/:id', [
     validarJWT,
     check('id', 'El id es obligatorio').not().isEmpty(),
     check('id', 'El id es obligatorio').isMongoId(),
-    check('nombre', 'El nombre es obligatorio').not().isEmpty(),
-    check('precio', 'El precio es obligatorio').not().isEmpty(),
-    check('descripcion', "La descripcion es obligatoria"),
     validarCampos,
 ], actualizarProducto);
 

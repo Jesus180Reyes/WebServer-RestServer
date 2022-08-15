@@ -5,9 +5,9 @@ const Producto = require("../models/producto");
 const crearProducto = async (req, res = response) => {
 
 
-    const { nombre, precio, descripcion, } = req.body;
+    const { estaodo, usuario, ...body } = req.body;
 
-    const productoDb = await Producto.findOne({ nombre });
+    const productoDb = await Producto.findOne({ nombre: body.nombre });
 
     if (productoDb) {
         return res.status(400).json({
@@ -18,10 +18,8 @@ const crearProducto = async (req, res = response) => {
 
 
     const data = {
-        nombre,
-        precio,
-        descripcion,
-        categoria: req.body.categoria,
+        nombre: body.nombre.toUpperCase(),
+        ...body,
         usuario: req.usuario._id
     },
 
@@ -40,7 +38,9 @@ const obtenerProductos = async (req, res = response) => {
 
     const { limite = 1, page = 0 } = req.query;
     const query = { estado: true };
-    const total = await Producto.find(query).populate('usuario', 'nombre email');
+    const total = await Producto.find(query)
+        .populate('usuario', 'nombre email')
+        .populate('categoria', 'nombre');
     const paginado = await Producto.countDocuments(query)
         .skip(Number(page))
         .limit(Number(limite));
@@ -56,7 +56,9 @@ const obtenerProductos = async (req, res = response) => {
 const obtenerProducto = async (req, res = response) => {
     const { id } = req.params;
 
-    const producto = await Producto.findById(id).populate('usuario', 'nombre email');
+    const producto = await Producto.findById(id)
+        .populate('usuario', 'nombre email')
+        .populate('categoria', 'nombre');
     if (!producto) {
         return res.status(400).json({
             ok: false,
@@ -72,9 +74,14 @@ const obtenerProducto = async (req, res = response) => {
 }
 const actualizarProducto = async (req, res = response) => {
     const { id } = req.params;
-    req.id = req.usuario.id;
-    const { nombre, precio, descripcion } = req.body;
-    const producto = await Producto.findByIdAndUpdate(id, { nombre, precio, descripcion }, { new: true });
+
+    const { usuario, estado, ...data } = req.body;
+    if (data.nombre) {
+
+        data.nombre = data.nombre.toUpperCase();
+    }
+    data.usuario = req.usuario._id;
+    const producto = await Producto.findByIdAndUpdate(id, data, { new: true });
 
     if (!producto.estado) {
         return res.status(400).json({
