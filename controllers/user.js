@@ -1,10 +1,11 @@
 const { response, request } = require('express');
 const Usuario = require('../models/usuario');
 const bcryptjs = require('bcryptjs');
-const usuariosGet = async (req = request, res = response) => {
+const usuariosGet = async (req, res = response) => {
     const { limite = 5, desde = 0 } = req.query;
     // const { q, nombre = 'No-Name', limit = 10, page = 1 } = req.query;
     const query = { estado: true };
+
     // const usuarios = await Usuario.find(query)
     //     .skip(Number(desde))
     //     .limit(Number(limite));
