@@ -12,9 +12,10 @@ class Server {
         // Path de usuarios
         this.paths = {
             auth: '/api/auth',
+            buscar: '/api/buscar',
             categories: '/api/categorias',
-            usuarios: '/api/usuarios',
             productos: '/api/productos',
+            usuarios: '/api/usuarios',
         };
         // this.usuariosPath = '/api/usuarios';
         // this.authPath = '/api/auth';
@@ -38,6 +39,7 @@ class Server {
     }
     routes() {
         this.app.use(this.paths.auth, require('../routes/auth'));
+        this.app.use(this.paths.buscar, require('../routes/buscar'));
         this.app.use(this.paths.usuarios, require('../routes/user'));
         this.app.use(this.paths.categories, require('../routes/categorias'));
         this.app.use(this.paths.productos, require('../routes/productos'));
